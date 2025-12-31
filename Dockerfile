@@ -19,11 +19,10 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# Copy application code (includes start.sh)
 COPY . .
 
-# Copy and make startup script executable
-COPY start.sh /app/start.sh
+# Make startup script executable
 RUN chmod +x /app/start.sh
 
 # Expose port
