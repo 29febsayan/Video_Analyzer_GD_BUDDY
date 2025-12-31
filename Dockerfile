@@ -33,7 +33,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"
 
 # Run the application using Python startup script
-# Python script reads PORT from environment directly (works even with Railway startCommand override)
+# This script reads PORT from environment and works even with Railway startCommand override
 # PORT is set by Railway automatically
-CMD ["python", "/app/start.py"]
+CMD ["python", "start.py"]
 

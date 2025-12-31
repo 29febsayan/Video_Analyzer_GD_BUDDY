@@ -304,6 +304,15 @@ async def get_detailed_analysis():
 if __name__ == "__main__":
     import uvicorn
     import os
-    port = int(os.environ.get("PORT", 8000))
+    import sys
+    
+    # Get PORT from environment, default to 8000
+    # This handles Railway's PORT variable correctly
+    try:
+        port = int(os.environ.get("PORT", 8000))
+    except (ValueError, TypeError):
+        port = 8000
+    
+    # Start uvicorn
     uvicorn.run(app, host="0.0.0.0", port=port)
 
