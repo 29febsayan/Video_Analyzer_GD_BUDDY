@@ -22,10 +22,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code (includes start.sh)
 COPY . .
 
-# Make startup script executable (verify it exists first)
-RUN if [ ! -f /app/start.sh ]; then echo "ERROR: start.sh not found!" && exit 1; fi && \
-    chmod +x /app/start.sh && \
-    ls -la /app/start.sh
+# Make startup scripts executable
+RUN chmod +x /app/start.sh /app/start.py 2>/dev/null || true
 
 # Expose port
 EXPOSE 8000
@@ -34,7 +32,8 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"
 
-# Run the application using startup script
+# Run the application using Python startup script
+# Python script reads PORT from environment directly (works even with Railway startCommand override)
 # PORT is set by Railway automatically
-CMD ["/app/start.sh"]
+CMD ["python", "/app/start.py"]
 
